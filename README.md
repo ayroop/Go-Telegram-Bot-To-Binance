@@ -35,7 +35,7 @@ Telegram Chat ID where the bot will operate.
 A domain name and basic knowledge of setting up an HTTPS server if you intend to host the admin panel and webhook endpoint publicly.
 Installation
 Clone the Repository
-git clone git@github.com:yourusername/Go-Telegram-Trading-Bot.git
+git clone git@github.com:ayroop/Go-Telegram-Trading-Bot.git
 cd Go-Telegram-Trading-Bot
 Copy
 Insert
