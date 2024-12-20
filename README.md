@@ -237,3 +237,64 @@ After logging in:
 5. **Backups**: Backup your database and important configuration.
 6. **Immutable Secrets**: Do not store secrets in the code or in the database. Use environment variables or a secrets management system.
 7. **Use `.gitignore`**: Ensure your `.gitignore` file excludes sensitive files like `.env`, `config.db`, and other secrets.
+
+Here's the continuation, as requested:
+
+---
+
+## Troubleshooting
+
+### Application Won't Start
+1. **Check Environment Variables**:
+   Ensure all environment variables are set correctly.
+2. **View Service Status**:
+   ```bash
+   sudo systemctl status app.service
+   ```
+   This will display the service's status and any error messages.
+3. **View Logs**:
+   ```bash
+   sudo journalctl -u app.service -b
+   ```
+   This will show logs for the current boot.
+
+### Cannot Access Admin Panel
+1. **Verify Application is Running**:
+   Ensure the application is active and running.
+2. **Check Domain Configuration**:
+   Make sure your domain is properly pointing to your server's IP address.
+3. **Firewall Settings**:
+   Confirm that your firewall allows incoming connections to the appropriate port.
+
+### Telegram Bot Not Responding
+1. **Validate Bot Token and Chat ID**:
+   Confirm that the Telegram bot token and chat ID are correct.
+2. **Ensure Application is Running**:
+   The application should be running without errors.
+3. **Network Connectivity**:
+   Verify your server can communicate with Telegram.
+
+### CSRF Token Errors
+1. **Include CSRF Token**:
+   Ensure the CSRF token is included in your form templates.
+2. **Verify `CSRF_AUTH_KEY`**:
+   Make sure `CSRF_AUTH_KEY` is a 64-character hexadecimal string.
+3. **Middleware Initialization**:
+   Check that the CSRF middleware is correctly initialized and applied to handlers.
+
+### Port Conflicts
+1. **Check Port Usage**:
+   Verify no other applications are using the same port.
+2. **Stop Manual Execution**:
+   If running manually, stop the systemd service to prevent conflicts.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+---
+
+> **Note**: Replace placeholders like `your-session-secret`, `your-csrf-auth-key`, `your-admin-password-hash`, and `your-domain` with actual values before deploying the application.
+
