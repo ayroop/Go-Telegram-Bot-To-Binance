@@ -116,7 +116,7 @@ export $(grep -v '^#' .env | xargs)
 Copy
 Insert
 
-Note: For production, do not load environment variables this way. Instead, use your system's environment variable mechanism or set them in the systemd service file, as described next.
+Note: For production, do not load environment variables this way. Instead, use your system's environment variable mechanism or set them in the app.service file, as described next.
 Setting Environment Variables in app.service
 For running the application as a service, you can set environment variables directly in the systemd service file.
 
@@ -200,17 +200,24 @@ After logging in:
 Navigate to the Configuration Page This should be /admin/config.
 Enter the Telegram Bot Token Obtain the bot token from BotFather on Telegram.
 Enter the Telegram Chat ID You can get your chat ID by messaging @userinfobot or other methods.
-Save the Configuration
-After saving, the application should initialize the Telegram bot.
-
+Save the Configuration After saving, the application should initialize the Telegram bot.
 Best Practices
-Security: Keep your SESSION_SECRET, CSRF_AUTH_KEY, and ADMIN_PASSWORD_HASH secure. Do not share them or commit them to version control.
-HTTPS: Use HTTPS to serve your admin panel and webhook endpoint.
-Regular Updates: Keep the application and dependencies up to date.
-Monitoring and Logging: Regularly monitor logs for errors or suspicious activity.
-Backups: Backup your database and important configuration.
-Immutable Secrets: Do not store secrets in the code or in the database. Use environment variables or a secrets management system.
-Use .gitignore: Ensure your .gitignore file excludes sensitive files like .env, config.db, and other secrets.
+Security:
+Keep your SESSION_SECRET, CSRF_AUTH_KEY, and ADMIN_PASSWORD_HASH secure.
+Do not share them or commit them to version control.
+HTTPS:
+Use HTTPS to serve your admin panel and webhook endpoint.
+Regular Updates:
+Keep the application and dependencies up to date.
+Monitoring and Logging:
+Regularly monitor logs for errors or suspicious activity.
+Backups:
+Backup your database and important configurations.
+Immutable Secrets:
+Do not store secrets in the code or in the database.
+Use environment variables or a secrets management system.
+Use .gitignore:
+Ensure your .gitignore file excludes sensitive files like .env, config.db, and other secrets.
 Troubleshooting
 Application Won't Start
 Check if all environment variables are set correctly.
