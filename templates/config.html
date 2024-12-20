@@ -1,0 +1,22 @@
+<!-- config.html -->
+<html>
+<head>
+    <title>Configuration</title>
+</head>
+<body>
+    {{if .ErrorMessage}}
+        <div style="color: red;">{{.ErrorMessage}}</div>
+    {{end}}
+    {{if .SuccessMessage}}
+        <div style="color: green;">{{.SuccessMessage}}</div>
+    {{end}}
+    <form method="post" action="/admin/config">
+        {{ .CSRFTemplateField }}
+        <label for="bot_token">Telegram Bot Token:</label><br>
+        <input type="text" id="bot_token" name="bot_token" value="{{.Config.TelegramBotToken}}"><br><br>
+        <label for="chat_id">Telegram Chat ID:</label><br>
+        <input type="text" id="chat_id" name="chat_id" value="{{.Config.TelegramChatID}}"><br><br>
+        <input type="submit" value="Save">
+    </form>
+</body>
+</html>

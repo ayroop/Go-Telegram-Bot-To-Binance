@@ -1,0 +1,33 @@
+# Binary files
+app
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Environment files and secrets
+.env
+.env.local
+.env.*
+*.key
+*.pem
+
+# Configuration and database files
+config.db
+config.local.*
+
+# Log files
+logs/
+*.log
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Vendor directory (if not including in VCS)
+vendor/
+
+# Build artifacts
+build/
