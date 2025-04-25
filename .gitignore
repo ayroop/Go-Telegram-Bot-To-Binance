@@ -1,18 +1,35 @@
-# Binary files
-app
+# Binaries for programs and plugins
+/app
 *.exe
+*.exe~
 *.dll
 *.so
 *.dylib
+*.out
 
-# Environment files and secrets
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.cover
+
+# Go workspace file
+go.work
+
+# Dependency directories
+vendor/
+node_modules/
+
+# Environment and secret files
 .env
 .env.local
 .env.*
 *.key
 *.pem
 
-# Configuration and database files
+# Database files
+*.db
+*.sqlite
 config.db
 config.local.*
 
@@ -20,14 +37,21 @@ config.local.*
 logs/
 *.log
 
-# IDE and system files
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
-
-# Vendor directory (if not including in VCS)
-vendor/
-
 # Build artifacts
 build/
+dist/
+bin/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
+.directory

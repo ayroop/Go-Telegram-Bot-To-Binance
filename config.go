@@ -1,4 +1,3 @@
-// config.go
 package main
 
 import (
@@ -19,6 +18,9 @@ type Config struct {
 	ID               uint `gorm:"primaryKey"`
 	TelegramBotToken string
 	TelegramChatID   int64
+	BinanceAPIKey    string
+	BinanceAPISecret string
+	BinanceAPIURL    string
 }
 
 // Validate checks the Config fields for validity.
@@ -28,6 +30,15 @@ func (config *Config) Validate() error {
 	}
 	if config.TelegramChatID == 0 {
 		return errors.New("Telegram chat ID cannot be zero")
+	}
+	if config.BinanceAPIKey == "" {
+		return errors.New("Binance API key cannot be empty")
+	}
+	if config.BinanceAPISecret == "" {
+		return errors.New("Binance API secret cannot be empty")
+	}
+	if config.BinanceAPIURL == "" {
+		return errors.New("Binance API URL cannot be empty")
 	}
 	return nil
 }
@@ -57,14 +68,14 @@ func saveConfig(config *Config) error {
 	return nil
 }
 
-// GetGlobalConfig safely retrieves the GlobalConfig
+// GetGlobalConfig safely retrieves the GlobalConfig.
 func GetGlobalConfig() Config {
 	configMutex.RLock()
 	defer configMutex.RUnlock()
 	return GlobalConfig
 }
 
-// SetGlobalConfig safely sets the GlobalConfig
+// SetGlobalConfig safely sets the GlobalConfig.
 func SetGlobalConfig(config Config) {
 	configMutex.Lock()
 	defer configMutex.Unlock()

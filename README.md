@@ -297,4 +297,3 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 ---
 
 > **Note**: Replace placeholders like `your-session-secret`, `your-csrf-auth-key`, `your-admin-password-hash`, and `your-domain` with actual values before deploying the application.
-
