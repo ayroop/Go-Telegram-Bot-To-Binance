@@ -6,6 +6,7 @@
 *.so
 *.dylib
 *.out
+*.zip
 
 # Test binary, built with `go test -c`
 *.test
@@ -50,6 +51,12 @@ bin/
 *.swp
 *.swo
 *~
+#Backups
+Final Backup/
+Go-Telegram-Bot-To-Binance.zip
+
+# Ignore Qodo IDE workspace config directory
+.qodo/
 
 # OS specific files
 .DS_Store
