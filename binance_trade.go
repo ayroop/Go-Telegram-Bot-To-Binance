@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"runtime/debug"
 	"strconv"
 	"sync"
 
@@ -23,6 +24,25 @@ type BinanceClient struct {
 	Client *futures.Client
 	Bot    *tgbotapi.BotAPI
 	mu     sync.Mutex // Mutex for concurrency control
+}
+
+// safeGo runs the given function in a new goroutine and logs panics.
+// Use for launching goroutines that interact with external APIs or clients.
+func (b *BinanceClient) safeGo(name string, fn func()) {
+	go func() {
+		defer func() {
+			if r := recover(); r != nil {
+				log.Printf("[PANIC][%s]: %v\nStack trace: %s", name, r, debug.Stack())
+				if b.Bot != nil && b != nil {
+					// Try to notify admin about the panic
+					config := GetGlobalConfig()
+					if config.AdminUserID != 0 {
+						b.sendMessageToUser(config.AdminUserID, fmt.Sprintf("⚠️ Panic in goroutine [%s]: %v", name, r))
+					}
+				}
+			}
+		}()
+		fn()
 }
 
 func NewBinanceClient(botInstance *tgbotapi.BotAPI) *BinanceClient {
@@ -53,6 +73,7 @@ func validateBinanceAPIKeys(apiKey, apiSecret, apiURL string) error {
 	if err != nil {
 		return fmt.Errorf("invalid Binance API Key/Secret: %v", err)
 	}
+	log.Printf("[ExecuteTrade] User %d | Symbol: %s | Complete", userID, signal.Symbol)
 	return nil
 }
 func (b *BinanceClient) testAPIKey() error {
@@ -68,13 +89,15 @@ func (b *BinanceClient) ExecuteTrade(signal *AlertMessage, settings *UserSetting
 	b.mu.Lock()
 	defer b.mu.Unlock()
 
+	log.Printf("[ExecuteTrade] User %d | Starting execution | Symbol: %s | Signal: %#v | Settings: %#v", 
+		userID, signal.Symbol, signal, settings)
+
 	if signal == nil {
 		err := fmt.Errorf("no valid signal provided")
 		b.sendMessageToUser(userID, "Signal not found or invalid.")
+		log.Printf("[ExecuteTrade] User %d | Failed: signal is nil", userID)
 		return err
 	}
-
-	log.Printf("ExecuteTrade called with signal: %+v, settings: %+v", signal, settings)
 
 	symbol := signal.Symbol
 	if symbol == "" {
@@ -131,7 +154,9 @@ func (b *BinanceClient) ExecuteTrade(signal *AlertMessage, settings *UserSetting
 			b.sendMessageToUser(userID, msg)
 
 			// Start monitoring the orders
-			go b.monitorOrdersViaWebSocket(userID)
+			b.safeGo("monitorOrdersViaWebSocket", func() {
+				b.monitorOrdersViaWebSocket(userID)
+			})
 		}
 	} else if settings.TradingMode == "Limit" {
 		err = b.placeLimitOrder(symbol, side, quantity, signal.EntryPrice)
